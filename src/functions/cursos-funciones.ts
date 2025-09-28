@@ -12,7 +12,7 @@ export async function obtenerCursos () {
 
         return cursos;
     } catch (error) {
-        console.error('[ERROR][obtenerCursos]', { error });
+        console.warn('[ERROR][obtenerCursos]', { error });
         return []
     }
 }
@@ -27,7 +27,7 @@ export async function obtenerCursoPorId (cursoId: string): Promise<Curso | null>
 
         return curso;
     } catch (error) {
-        console.error('[ERROR][obtenerCursoPorId]', { error });
+        console.warn('[ERROR][obtenerCursoPorId]', { error });
         return null
     }
 }
@@ -42,7 +42,7 @@ export async function obtenerLeccionesPorCurso (cursoId: string) {
 
         return lecciones;
     } catch (error) {
-        console.error('[ERROR][obtenerLeccionesPorCurso]', { error });
+        console.warn('[ERROR][obtenerLeccionesPorCurso]', { error });
         return []
     }
 }
@@ -57,7 +57,7 @@ export async function obtenerLeccionPorId(leccionId: string) {
 
         return leccion;
     } catch (error) {
-        console.error('[ERROR][obtenerLeccionPorId]', { error });
+        console.warn('[ERROR][obtenerLeccionPorId]', { error });
         return null
     }
 }
@@ -72,7 +72,7 @@ export async function obtenerPreguntasPorLeccion(leccionId: string) {
 
         return preguntas;
     } catch (error) {
-        console.error('[ERROR][obtenerPreguntasPorLeccion]', { error });
+        console.warn('[ERROR][obtenerPreguntasPorLeccion]', { error });
         return []
     }
 }
@@ -95,7 +95,7 @@ export async function evaluarRespuesta(preguntaId: number, respuestaUsuario: str
 
         return respuesta;
     } catch (error) {
-        console.error('[ERROR][evaluarRespuesta]', { error });
+        console.warn('[ERROR][evaluarRespuesta]', { error });
         return null
     }
 }

@@ -4,7 +4,7 @@ import Link from "next/link";
 interface Props {
     curso: Curso;
     numeroLecciones: number;
-    idPrimeraLeccion: number;
+    idPrimeraLeccion: number | null;
 }
 
 export const CursosHeader = ({ curso, numeroLecciones, idPrimeraLeccion }: Props) => {
@@ -32,9 +32,11 @@ export const CursosHeader = ({ curso, numeroLecciones, idPrimeraLeccion }: Props
             </div>
         </div>
 
-        <Link href={`/cursos/${curso.id}/lecciones/${idPrimeraLeccion}`} className="bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700 transition-colors">
-            Comenzar Curso
-        </Link>
+        {
+            idPrimeraLeccion && (<Link href={`/cursos/${curso.id}/lecciones/${idPrimeraLeccion}`} className="bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700 transition-colors">
+                Comenzar Curso
+            </Link>)
+        }
         </div>
     </div>
   )

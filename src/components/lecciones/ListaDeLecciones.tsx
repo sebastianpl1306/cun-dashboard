@@ -37,6 +37,6 @@ export const ListaDeLecciones = ({ curso, lecciones }: Props) => {
             </div>
             </div>
         ))}
-        </div>
+    </div>
   )
 }
