@@ -1,6 +1,7 @@
 import { Breadcrumb, CursosHeader } from '@/src/components';
 import { ListaDeLecciones } from '@/src/components/lecciones';
-import { BreadcrumbItem, Curso, Leccion } from '@/src/interfaces';
+import { obtenerLeccionesPorCurso } from '@/src/functions/cursos-funciones';
+import { BreadcrumbItem, Curso } from '@/src/interfaces';
 
 const breadcrumbItem: BreadcrumbItem[] = [
   {
@@ -20,8 +21,13 @@ const breadcrumbItem: BreadcrumbItem[] = [
   },
 ]
 
-export default async function CourseDetail() {
+interface Props {
+  params: { cursoId: string };
+}
 
+export default async function CourseDetail({ params }: Props) {
+  const { cursoId } = await params;
+  const lecciones = await obtenerLeccionesPorCurso(cursoId);
   const curso: Curso = {
     id: 1,
     nombre: "Introducción a JavaScript",
@@ -29,19 +35,6 @@ export default async function CourseDetail() {
     createdAt: '',
     updatedAt: ''
   };
-
-  const lecciones: Leccion[] = [
-      {
-        id: 5,
-        nombre: "Aritmética Básica",
-        cursoId: 3
-      },
-      {
-        id: 6,
-        nombre: "Introducción al Álgebra",
-        cursoId: 3
-      }
-  ]
 
   return (
     <div className="min-h-screen bg-gray-50">
