@@ -1,83 +1,65 @@
-'use client'
-import { Breadcrumb, ContenedorPregunta, ProgresoPregunta } from '@/src/components';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { Breadcrumb, ContenedorPreguntas, ProgresoPregunta } from '@/src/components';
 import { LeccionesHeader } from '@/src/components/lecciones';
+import { obtenerCursoPorId, obtenerLeccionPorId, obtenerPreguntasPorLeccion } from '@/src/functions/cursos-funciones';
 import { BreadcrumbItem, Leccion } from '@/src/interfaces';
 
-const breadcrumbItem: BreadcrumbItem[] = [
-  {
-    title: "Inicio",
-    url: "/",
-    isFinish: false
-  },
-  {
-    title: "Cursos",
-    url: "/cursos",
-    isFinish: false
-  },
-  {
-    title: "Nombre curso",
-    url: "/cursos/1",
-    isFinish: false
-  },
-  {
-    title: "Lección 1",
-    url: "/cursos/1/lecciones/1",
-    isFinish: true
-  },
-]
+interface Props {
+  params: { cursoId: string, leccionId: string };
+}
 
-export default function DetalleLeccionesPage() {
+export default async function DetalleLeccionesPage({ params }: Props) {
+  const { cursoId, leccionId } = await params;
+  const curso = await obtenerCursoPorId(cursoId);
+  const leccion: Leccion | null = await obtenerLeccionPorId(leccionId);
+  const preguntas = await obtenerPreguntasPorLeccion(leccionId);
 
-  const lesson: Leccion = {
-    id: 5,
-    nombre: "Aritmética Básica",
-    cursoId: 3
-  };
+  if(!curso || !leccion?.id) {
+    notFound()
+  }
 
-  const preguntas = [
-      {
-          id: 12,
-          enunciado: "¿Cuál es el resultado de 8 × 7?",
-          opciones: [
-              "54",
-              "56",
-              "58",
-              "60"
-          ]
-      },
-      {
-          id: 11,
-          enunciado: "¿Cuál es el resultado de 15 + 27?",
-          opciones: [
-              "40",
-              "42",
-              "43",
-              "45"
-          ]
-      },
-      {
-          id: 13,
-          enunciado: "¿Cuál es el resultado de 144 ÷ 12?",
-          opciones: [
-              "10",
-              "11",
-              "12",
-              "13"
-          ]
-      }
-  ];
-
-  const currentQuestion = preguntas[0];
+  const breadcrumbItem: BreadcrumbItem[] = [
+    {
+      title: "Inicio",
+      url: "/",
+      isFinish: false
+    },
+    {
+      title: "Cursos",
+      url: "/cursos",
+      isFinish: false
+    },
+    {
+      title: curso.nombre,
+      url: `/cursos/${curso.id}`,
+      isFinish: false
+    },
+    {
+      title: leccion.nombre,
+      url: `/cursos/${curso.id}/lecciones/${leccion.id}`,
+      isFinish: true
+    },
+  ]
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Breadcrumb items={breadcrumbItem}/>
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         <div className="bg-white rounded-lg shadow-md">
-          <LeccionesHeader leccion={lesson}/>
-          <ContenedorPregunta pregunta={currentQuestion}/>
+          <LeccionesHeader leccion={leccion}/>
+          {
+            !preguntas.length ? (
+              <div className='py-8 font-bold'>
+                <h3 className='text-3xl text-center'>Este curso no tiene preguntas</h3>
+                <Link href={`/cursos/${leccion.cursoId}`} className="flex items-center text-gray-600 hover:text-gray-800 font-medium">
+                    Volver al curso
+                </Link>
+              </div>
+            ) : (<ContenedorPreguntas preguntas={preguntas} leccion={leccion}/>)
+          }
         </div>
-        <ProgresoPregunta preguntasFinales={preguntas}/>
+        <ProgresoPregunta preguntasFinales={preguntas ? preguntas : []}/>
       </main>
     </div>
   );
