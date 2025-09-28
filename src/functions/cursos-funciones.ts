@@ -1,5 +1,5 @@
 'use server'
-import { Curso, Leccion } from "../interfaces";
+import { Curso, Leccion, Pregunta } from "../interfaces";
 
 export async function obtenerCursos () {
     try {
@@ -42,6 +42,36 @@ export async function obtenerLeccionesPorCurso (cursoId: string) {
         return lecciones;
     } catch (error) {
         console.error('[ERROR][obtenerLeccionesPorCurso]', { error });
+        return []
+    }
+}
+
+export async function ObtenerLeccionPorId(leccionId: string) {
+    try {
+        const leccion: Leccion = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lecciones/${leccionId}`, {
+            method: 'GET'
+        }).then( data => data.json() );
+
+        if(!leccion.id) throw new Error(`No se pudo obtener la lección ${leccionId}`);
+
+        return leccion;
+    } catch (error) {
+        console.error('[ERROR][ObtenerLeccionPorId]', { error });
+        return null
+    }
+}
+
+export async function ObtenerPreguntasPorLeccion(leccionId: string) {
+    try {
+        const preguntas: Pregunta[] = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lecciones/${leccionId}/preguntas`, {
+            method: 'GET'
+        }).then( data => data.json() );
+
+        if(!preguntas.length) throw new Error(`No se pudo obtener las preguntas de la lección ${leccionId}`);
+
+        return preguntas;
+    } catch (error) {
+        console.error('[ERROR][ObtenerPreguntasPorLeccion]', { error });
         return []
     }
 }
