@@ -1,16 +1,8 @@
 import { CursosCard } from "@/src/components";
-import { Curso } from "@/src/interfaces";
+import { obtenerCursos } from "@/src/functions/cursos-funciones";
 
-export default function CursosPage() {
-  const cursos: Curso[] = [
-    {
-      id: 3,
-      nombre: "Matemáticas Básicas",
-      descripcion: "Curso introductorio de matemáticas con operaciones básicas y álgebra.",
-      createdAt: "2025-09-27T22:09:40.035Z",
-      updatedAt: "2025-09-27T22:09:40.035Z"
-    },
-];
+export default async function CursosPage() {
+  const cursos = await obtenerCursos();
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -23,7 +15,6 @@ export default function CursosPage() {
         </p>
       </div>
 
-      {/* Courses Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cursos.map((curso) => (
           <CursosCard key={curso.id} curso={curso}/>

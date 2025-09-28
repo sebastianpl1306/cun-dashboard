@@ -21,18 +21,12 @@ export const ListaDeLecciones = ({ curso, lecciones }: Props) => {
                 
                 <div>
                     <h3 className="text-lg font-medium text-gray-900">
-                    {lesson.nombre}
+                        {lesson.nombre}
                     </h3>
-                    <p className="text-sm text-gray-500">
-                    Lección {lesson.id}
-                    </p>
                 </div>
                 </div>
                 
                 <div className="flex items-center space-x-3">
-                <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                    Pendiente
-                </span>
                 <Link
                     href={`/cursos/${curso.id}/lecciones/${lesson.id}`}
                     className="bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700 transition-colors"

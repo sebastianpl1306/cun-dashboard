@@ -1,16 +1,8 @@
 import { CursosCard } from "../components";
-import { Curso } from "../interfaces";
+import { obtenerCursos } from "../functions/cursos-funciones";
 
-export default function Home() {
-  const cursos: Curso[] = [
-    {
-      id: 3,
-      nombre: "Matemáticas Básicas",
-      descripcion: "Curso introductorio de matemáticas con operaciones básicas y álgebra.",
-      createdAt: "2025-09-27T22:09:40.035Z",
-      updatedAt: "2025-09-27T22:09:40.035Z"
-    },
-  ];
+export default async function Home() {
+  const cursos = await obtenerCursos();
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

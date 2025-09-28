@@ -1,11 +1,13 @@
 import { Curso } from "@/src/interfaces"
+import Link from "next/link";
 
 interface Props {
     curso: Curso;
     numeroLecciones: number;
+    idPrimeraLeccion: number;
 }
 
-export const CursosHeader = ({ curso, numeroLecciones }: Props) => {
+export const CursosHeader = ({ curso, numeroLecciones, idPrimeraLeccion }: Props) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-8 mb-8">
         <div className="flex items-start justify-between">
@@ -18,7 +20,7 @@ export const CursosHeader = ({ curso, numeroLecciones }: Props) => {
             </div>
             
             <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            {curso.nombre}
+                {curso.nombre}
             </h1>
             
             <p className="text-gray-600 text-lg mb-6">
@@ -30,9 +32,9 @@ export const CursosHeader = ({ curso, numeroLecciones }: Props) => {
             </div>
         </div>
 
-        <button className="bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700 transition-colors">
+        <Link href={`/cursos/${curso.id}/lecciones/${idPrimeraLeccion}`} className="bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700 transition-colors">
             Comenzar Curso
-        </button>
+        </Link>
         </div>
     </div>
   )
