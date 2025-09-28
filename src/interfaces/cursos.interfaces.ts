@@ -10,8 +10,6 @@ export interface Leccion {
   id: number;
   nombre: string;
   cursoId: number;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface Pregunta {

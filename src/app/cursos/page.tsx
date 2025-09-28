@@ -1,7 +1,7 @@
-import { CursosCard } from "../components";
-import { Curso } from "../interfaces";
+import { CursosCard } from "@/src/components";
+import { Curso } from "@/src/interfaces";
 
-export default function Home() {
+export default function CursosPage() {
   const cursos: Curso[] = [
     {
       id: 3,
@@ -10,7 +10,7 @@ export default function Home() {
       createdAt: "2025-09-27T22:09:40.035Z",
       updatedAt: "2025-09-27T22:09:40.035Z"
     },
-  ];
+];
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
