@@ -1,5 +1,6 @@
-import { Leccion } from "./cursos.interfaces";
+import { Pregunta, preguntasFinales } from "./cursos.interfaces";
 
 export interface CursosState {
-    leccionActual: Leccion | null
+    preguntas: Pregunta[];
+    respuestasPreguntas: preguntasFinales[]
 }

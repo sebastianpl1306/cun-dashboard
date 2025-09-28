@@ -1,5 +1,5 @@
 'use server'
-import { Curso, Leccion, Pregunta } from "../interfaces";
+import { Curso, EvaluacionRespuesta, Leccion, Pregunta } from "../interfaces";
 
 export async function obtenerCursos () {
     try {
@@ -46,7 +46,7 @@ export async function obtenerLeccionesPorCurso (cursoId: string) {
     }
 }
 
-export async function ObtenerLeccionPorId(leccionId: string) {
+export async function obtenerLeccionPorId(leccionId: string) {
     try {
         const leccion: Leccion = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lecciones/${leccionId}`, {
             method: 'GET'
@@ -56,12 +56,12 @@ export async function ObtenerLeccionPorId(leccionId: string) {
 
         return leccion;
     } catch (error) {
-        console.error('[ERROR][ObtenerLeccionPorId]', { error });
+        console.error('[ERROR][obtenerLeccionPorId]', { error });
         return null
     }
 }
 
-export async function ObtenerPreguntasPorLeccion(leccionId: string) {
+export async function obtenerPreguntasPorLeccion(leccionId: string) {
     try {
         const preguntas: Pregunta[] = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lecciones/${leccionId}/preguntas`, {
             method: 'GET'
@@ -71,7 +71,30 @@ export async function ObtenerPreguntasPorLeccion(leccionId: string) {
 
         return preguntas;
     } catch (error) {
-        console.error('[ERROR][ObtenerPreguntasPorLeccion]', { error });
+        console.error('[ERROR][obtenerPreguntasPorLeccion]', { error });
         return []
+    }
+}
+
+export async function evaluarRespuesta(preguntaId: number, respuestaUsuario: string) {
+    try {
+        const respuesta: EvaluacionRespuesta = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/evaluar`, {
+            cache: 'no-store',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                preguntaId,
+                respuestaUsuario
+            })
+        }).then( data => data.json() );
+
+        if(!respuesta.preguntaId) throw new Error(`No se pudo obtener la respuesta a la pregunta ${preguntaId}`);
+
+        return respuesta;
+    } catch (error) {
+        console.error('[ERROR][evaluarRespuesta]', { error });
+        return null
     }
 }

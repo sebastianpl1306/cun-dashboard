@@ -1,6 +1,6 @@
-import { Breadcrumb, ContenedorPregunta, ProgresoPregunta } from '@/src/components';
+import { Breadcrumb, ContenedorPreguntas, ProgresoPregunta } from '@/src/components';
 import { LeccionesHeader } from '@/src/components/lecciones';
-import { obtenerCursoPorId, ObtenerLeccionPorId, ObtenerPreguntasPorLeccion } from '@/src/functions/cursos-funciones';
+import { obtenerCursoPorId, obtenerLeccionPorId, obtenerPreguntasPorLeccion } from '@/src/functions/cursos-funciones';
 import { BreadcrumbItem, Leccion } from '@/src/interfaces';
 import { notFound } from 'next/navigation';
 
@@ -11,8 +11,8 @@ interface Props {
 export default async function DetalleLeccionesPage({ params }: Props) {
   const { cursoId, leccionId } = await params;
   const curso = await obtenerCursoPorId(cursoId);
-  const leccion: Leccion | null = await ObtenerLeccionPorId(leccionId);
-  const preguntas = await ObtenerPreguntasPorLeccion(leccionId);
+  const leccion: Leccion | null = await obtenerLeccionPorId(leccionId);
+  const preguntas = await obtenerPreguntasPorLeccion(leccionId);
 
   if(!curso || !leccion?.id) {
     notFound()
@@ -47,7 +47,7 @@ export default async function DetalleLeccionesPage({ params }: Props) {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         <div className="bg-white rounded-lg shadow-md">
           <LeccionesHeader leccion={leccion}/>
-          <ContenedorPregunta pregunta={preguntas[0]}/>
+          <ContenedorPreguntas preguntas={preguntas} leccion={leccion}/>
         </div>
         <ProgresoPregunta preguntasFinales={preguntas}/>
       </main>

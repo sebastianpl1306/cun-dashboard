@@ -23,12 +23,16 @@ export interface EvaluacionRequest {
   respuestaUsuario: string;
 }
 
-export interface EvaluacionResponse {
+export interface EvaluacionRespuesta {
   preguntaId: number;
   respuestaUsuario: string;
   esCorrecta: boolean;
   respuestaCorrecta: string;
   mensaje: string;
+}
+
+export interface preguntasFinales extends EvaluacionRespuesta {
+  pregunta: Pregunta;
 }
 
 export interface ApiError {

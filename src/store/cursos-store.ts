@@ -1,13 +1,24 @@
 import { create } from 'zustand'
-import { CursosState, Leccion } from '../interfaces';
+import { CursosState, Pregunta, preguntasFinales } from '../interfaces';
 
 interface State extends CursosState {
-    seleccionarLeccion: (leccion: Leccion | null) => void;
+    cargarPreguntas: (preguntas: Pregunta[]) => void;
+    cargarRespuestaPregunta: (respuestaPregunta: preguntasFinales) => void;
+    limpiarRespuestas: () => void;
 }
 
 export const useCursosStore = create<State>()((set) => ({
-    leccionActual: null,
-    seleccionarLeccion: (leccion: Leccion | null) => {
-        set({ leccionActual: leccion })
+    preguntas: [],
+    respuestasPreguntas: [],
+    cargarPreguntas: (preguntas: Pregunta[]) => {
+        set({ respuestasPreguntas: [], preguntas: preguntas })
     },
+    cargarRespuestaPregunta: (respuestaPregunta: preguntasFinales) => {
+        set((state) => ({
+            respuestasPreguntas: [...state.respuestasPreguntas, respuestaPregunta]
+        }))
+    },
+    limpiarRespuestas: () => {
+        set({ respuestasPreguntas: [] })
+    }
 }))
