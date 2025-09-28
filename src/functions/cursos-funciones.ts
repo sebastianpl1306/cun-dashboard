@@ -4,6 +4,7 @@ import { Curso, EvaluacionRespuesta, Leccion, Pregunta } from "../interfaces";
 export async function obtenerCursos () {
     try {
         const cursos: Curso[] = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cursos`, {
+            cache: 'no-store',
             method: 'GET'
         }).then( data => data.json() );
 

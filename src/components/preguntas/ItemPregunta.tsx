@@ -13,7 +13,7 @@ export const ItemPregunta = ({ numeroPregunta, pregunta, isActive, validarPregun
   const [selectedOption, setSelectedOption] = useState('');
 
   return (
-    <div className={`${isActive ? 'block' : 'hidden'} p-8`}>
+    <div className={`${isActive ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-4 scale-95 pointer-events-none absolute'} transition-all duration-500 ease-in-out transform p-8`}>
         <div className="mb-8">
             <div className="flex items-center mb-4">
             <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-3">

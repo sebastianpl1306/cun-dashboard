@@ -1,7 +1,8 @@
 'use client'
+import { useEffect, useRef, useState } from "react"
+import confetti from "canvas-confetti";
 import { Leccion, Pregunta } from "@/src/interfaces"
 import { useCursosStore } from "@/src/store/cursos-store"
-import { useEffect, useState } from "react"
 import { ItemPregunta } from "./ItemPregunta"
 import { evaluarRespuesta } from "@/src/functions/cursos-funciones"
 import { ReporteFinalPreguntas } from "./reporte-final/ReporteFinalPreguntas"
@@ -13,8 +14,20 @@ interface Props {
 
 export const ContenedorPreguntas = ({ preguntas, leccion }: Props) => {
   const { preguntas: preguntasFinales, cargarPreguntas, cargarRespuestaPregunta, respuestasPreguntas, limpiarRespuestas } = useCursosStore(state => state);
+  const correctoAudioRef = useRef<HTMLAudioElement | null>(null);
+  const incorrectoAudioRef = useRef<HTMLAudioElement | null>(null);
   const [preguntaActual, setPreguntaActual] = useState(0);
   const [informeFinal, setInformeFinal] = useState(false);
+
+  useEffect(() => {
+    if (!correctoAudioRef.current) {
+      correctoAudioRef.current = new Audio("/mp3/correct.mp3");
+    }
+
+    if (!incorrectoAudioRef.current) {
+      incorrectoAudioRef.current = new Audio("/mp3/wrong.mp3");
+    }
+  }, [])
 
   useEffect(() => {
     cargarPreguntas(preguntas);
@@ -31,6 +44,17 @@ export const ContenedorPreguntas = ({ preguntas, leccion }: Props) => {
     const resultado = await evaluarRespuesta(pregunta.id, respuesta);
     
     if(!resultado?.preguntaId) return;
+
+    if(correctoAudioRef.current && resultado.esCorrecta === true){
+      correctoAudioRef.current.currentTime = 0;
+      correctoAudioRef.current.play();
+      confetti();
+    }
+
+    if(incorrectoAudioRef.current && resultado.esCorrecta === false){
+      incorrectoAudioRef.current.currentTime = 0;
+      incorrectoAudioRef.current.play();
+    }
 
     cargarRespuestaPregunta({...resultado, pregunta});
     continuarPreguntas(pregunta);
